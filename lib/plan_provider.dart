@@ -6,13 +6,13 @@ class PlanProvider extends InheritedWidget {
     super.key,
     required Widget child,
   }) : super(child: child);
-  final _plan = Plan();
+  final _plans = <Plan>[];
 
-  static Plan of(BuildContext context) {
+  static List<Plan> of(BuildContext context) {
     final PlanProvider? result =
         context.dependOnInheritedWidgetOfExactType<PlanProvider>();
     assert(result != null, 'No PlanProvider found in context');
-    return result!._plan;
+    return result!._plans;
   }
 
   @override

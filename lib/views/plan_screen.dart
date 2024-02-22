@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:master_plan/models/data_layer.dart';
-import 'package:master_plan/plan_provider.dart';
 class PlanScreen extends StatefulWidget {
-  const PlanScreen({super.key});
+  const PlanScreen({super.key, required this.plan});
+  final Plan plan;
 
   @override
   State<PlanScreen> createState() => _PlanScreenState();
@@ -11,6 +11,7 @@ class PlanScreen extends StatefulWidget {
 class _PlanScreenState extends State<PlanScreen> {
   final plan = Plan();
   ScrollController? scrollController;
+  Plan get plans => widget.plan;
 
   @override
   void initState() {
@@ -54,7 +55,6 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   Widget _buildList() {
-    final plan = PlanProvider.of(context);
     return ListView.builder(
       controller: scrollController,
       itemCount: plan.tasks.length,
@@ -85,7 +85,6 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   Widget _buildAddTaskButton() {
-    final plan = PlanProvider.of(context);
     return FloatingActionButton(
       child: const Icon(Icons.add),
       onPressed: (){
