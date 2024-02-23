@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:master_plan/models/data_layer.dart';
+import 'package:master_plan/plan_provider.dart';
 class PlanScreen extends StatefulWidget {
   const PlanScreen({super.key, required this.plan});
   final Plan plan;
@@ -64,23 +65,35 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   Widget _buildTaskTile(Task task){
-    return ListTile(
-      leading: Checkbox(
-        value: task.complete,
-        onChanged: (selected){
-          setState(() {
-            task.complete = selected!;
-          });
-        },
+    return Dismissible(
+      key: ValueKey(task),
+      background: Container(color: Colors.red,),
+      direction: DismissDirection.endToStart,
+      onDismissed: (_){
+        final controller = PlanProvider.of(context);
+        controller.deletePlan(plan);
+        setState(() {
+
+        });
+      },
+      child: ListTile(
+        leading: Checkbox(
+          value: task.complete,
+          onChanged: (selected){
+            setState(() {
+              task.complete = selected!;
+            });
+          },
+        ),
+        title: TextFormField(
+          initialValue: task.description,
+          onFieldSubmitted: (text){
+            setState(() {
+              task.description = text;
+            });
+          },
+        )
       ),
-      title: TextFormField(
-        initialValue: task.description,
-        onFieldSubmitted: (text){
-          setState(() {
-            task.description = text;
-          });
-        },
-      )
     );
   }
 
@@ -88,8 +101,10 @@ class _PlanScreenState extends State<PlanScreen> {
     return FloatingActionButton(
       child: const Icon(Icons.add),
       onPressed: (){
+        final controller = PlanProvider.of(context);
+        controller.createNewTask(plan);
         setState(() {
-          plan.tasks.add(Task());
+          // plan.tasks.add(Task());
         });
       },
     );
