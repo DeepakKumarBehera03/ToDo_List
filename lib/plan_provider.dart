@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:master_plan/controllers/plan_controller.dart';
-import 'package:master_plan/models/plan.dart';
 
 class PlanProvider extends InheritedWidget {
   PlanProvider({
     super.key,
     required Widget child,
   }) : super(child: child);
-  final _plans = <Plan>[];
   final _controller = PlanController();
 
   static PlanController of(BuildContext context) {

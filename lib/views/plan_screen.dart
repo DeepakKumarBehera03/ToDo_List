@@ -10,7 +10,7 @@ class PlanScreen extends StatefulWidget {
 }
 
 class _PlanScreenState extends State<PlanScreen> {
-  final plan = Plan();
+  final plan =  Plan();
   ScrollController? scrollController;
   Plan get plans => widget.plan;
 
@@ -32,26 +32,34 @@ class _PlanScreenState extends State<PlanScreen> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Master Plan"),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-              child: _buildList(),
-          ),
-          SafeArea(child: Text(plan.completenessMessage,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.teal,
+    return PopScope(
+      canPop : true,
+      onPopInvoked: (didpop) async{
+        final controller = PlanProvider.of(context);
+        controller.savePlan(plan);
+        return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Master Plan"),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+                child: _buildList(),
             ),
-          ),
-          ),
-        ],
+            SafeArea(child: Text(plan.completenessMessage,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+            ),
+            ),
+          ],
+        ),
+        floatingActionButton: _buildAddTaskButton(),
       ),
-      floatingActionButton: _buildAddTaskButton(),
     );
   }
 
@@ -73,7 +81,6 @@ class _PlanScreenState extends State<PlanScreen> {
         final controller = PlanProvider.of(context);
         controller.deletePlan(plan);
         setState(() {
-
         });
       },
       child: ListTile(

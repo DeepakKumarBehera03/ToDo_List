@@ -18,12 +18,39 @@ class _PlanCreaterScreenState extends State<PlanCreaterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Master Plan's"),
-      ),
-      body: Column(
-        children: [
-            _buildListCreater(),
-          Expanded(child: _buildMasterPlans()),
+        leading: const Padding(
+          padding: EdgeInsets.all(20),
+          child: Icon(
+            Icons.search,
+            size: 30,
+            color: Colors.black87,
+          ),
+        ),
+        actions: const [
+          Padding(
+            padding:  EdgeInsets.all(20.0),
+            child: Icon(Icons.add_a_photo),
+          )
         ],
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.white,
+              Colors.pinkAccent,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight
+          ),
+
+        ),
+        child: Column(
+          children: [
+              _buildListCreater(),
+            Expanded(child: _buildMasterPlans()),
+          ],
+        ),
       ),
     );
   }
